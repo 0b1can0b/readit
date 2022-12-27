@@ -81,11 +81,11 @@ const Post = ({ postData, IsActivePost }) => {
       onClick={handelClick}
     >
       <div className="meta_info">
-        {postData.data.post_hint ? (
+        {/* {postData.data.post_hint ? (
           <div className="hint">{postData.data.post_hint}</div>
         ) : (
           ""
-        )}
+        )} */}
         <div className="in_subreddit">
           <div className="text">in</div>
           <a href="#" className="subreddit">
