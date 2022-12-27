@@ -21,7 +21,7 @@ const timeAgo = (time) => {
       }
     }
   }
-  return `${time_ago.toFixed(1)}${time_text}`;
+  return `${time_ago.toFixed(2)}${time_text}`;
 };
 
 export default timeAgo;
