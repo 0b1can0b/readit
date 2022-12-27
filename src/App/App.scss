@@ -22,6 +22,9 @@ body {
 }
 
 .app {
+}
+
+.home {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -35,8 +38,10 @@ body {
   // zoom: 2.75;
 }
 
-// .loading {
-// }
+.loading {
+  width: min(40rem, 100%);
+  align-self: center;
+}
 
 .posts {
   display: flex;
