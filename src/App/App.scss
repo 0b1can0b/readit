@@ -68,7 +68,7 @@ body {
 
     cursor: pointer;
     transition: background-color 0.25s ease;
-    &:hover {
+    &:not(:has(.arrow_buttons:hover)):hover {
       background-color: hsl(220 10% 17.5%);
     }
 
@@ -169,6 +169,120 @@ body {
       }
     }
 
+    .rich_video {
+      width: calc(100% + 2rem);
+      margin: 0 -1rem;
+
+      iframe {
+        width: 100%;
+        max-height: 50vh;
+      }
+    }
+
+    .gallery {
+      width: calc(100% + 2rem);
+      margin: 0 -1rem;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+
+      position: relative;
+
+      .arrow_buttons {
+        display: flex;
+        gap: 2rem;
+
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        translate: 0 -50%;
+
+        z-index: 20;
+        user-select: none;
+
+        :is(.prev, .next) {
+          position: absolute;
+          cursor: pointer;
+          aspect-ratio: 1;
+          padding: 0.25rem;
+          font-size: 1rem;
+          border: 0;
+          color: hsl(220 100% 100%);
+          background-color: hsl(220 25% 25% / 0.5);
+          border-radius: 0.25rem;
+
+          transition: 0.25s ease-out;
+          &:hover {
+            background-color: hsl(220 50% 50%);
+          }
+
+          top: 50%;
+          translate: 0 -50%;
+          &.prev {
+            left: 1rem;
+          }
+          &.next {
+            right: 1rem;
+          }
+
+          svg {
+            display: block;
+          }
+        }
+      }
+
+      .pagination {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        z-index: 20;
+        background-color: hsl(220 25% 25% / 0.5);
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+      }
+
+      .imgs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+
+        .slide {
+          display: none;
+
+          &.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-size: cover;
+            background-position: center center;
+
+            z-index: 10;
+            isolation: isolate;
+            position: relative;
+            &:after {
+              content: "";
+              position: absolute;
+              inset: 0;
+              backdrop-filter: brightness(0.75) blur(7.5px);
+              z-index: -1;
+            }
+          }
+
+          img {
+            max-height: 50vh;
+            max-width: 100%;
+            display: block;
+          }
+        }
+      }
+    }
+
     .link_block {
       display: flex;
       gap: 1rem;
@@ -229,7 +343,7 @@ body {
       padding: 0.75rem 1rem;
       border-radius: 0.5rem;
       background-color: hsl(220 10% 20%);
-      max-width: 100%;
+      width: 100%;
 
       .md {
         text-align: justify;

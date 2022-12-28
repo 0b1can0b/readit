@@ -4,6 +4,8 @@ import {
   HiOutlineHeart,
   HiOutlineChatBubbleLeft,
   HiOutlineClock,
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
 } from "react-icons/hi2";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import timeAgo from "/src/utilities/timeAgo.js";
@@ -27,6 +29,41 @@ const Post = ({ postData, IsActivePost }) => {
       ? `url("${postData.data.preview.images[0].resolutions[0].url}")`
       : `url("${postData.data.thumbnail}")`;
 
+  const galleryImgsSecSets =
+    postData.data.is_gallery &&
+    Object.values(postData.data.media_metadata).map((e) => {
+      return e.p
+        .map((e) => {
+          return `${e.u} ${e.x}w`;
+        })
+        .join(",");
+    });
+  const galleryBgImgsUrls =
+    postData.data.is_gallery &&
+    Object.values(postData.data.media_metadata).map((e) => {
+      return `url("${e.p[0].u}")`;
+    });
+
+  const [galleryActiveItem, setGalleryActiveItem] = useState(0);
+  const handelGalleryPrev = () => {
+    setGalleryActiveItem((prev) => {
+      if (prev > 0) {
+        return prev - 1;
+      } else {
+        return galleryImgsSecSets.length - 1;
+      }
+    });
+  };
+  const handelGalleryNext = () => {
+    setGalleryActiveItem((prev) => {
+      if (prev < galleryImgsSecSets.length - 1) {
+        return prev + 1;
+      } else {
+        return 0;
+      }
+    });
+  };
+
   const score =
     postData.data.score >= 1000
       ? `${(postData.data.score / 1000).toFixed(2)}k`
@@ -38,17 +75,14 @@ const Post = ({ postData, IsActivePost }) => {
       : postData.data.num_comments;
 
   const handelClick = (e) => {
-    if (e.target.tagName !== "VIDEO") {
+    if (
+      e.target.tagName !== "VIDEO" &&
+      !e.nativeEvent.path.some((e) => e.className == "arrow_buttons")
+    ) {
       console.log(postData.data);
       console.log(`https://www.troddit.com${postData.data.permalink}`);
     }
   };
-
-  if (postData.data.is_gallery) {
-    console.log(postData.data.media_metadata);
-    console.log(postData.data.title);
-    console.log("");
-  }
 
   useEffect(() => {
     let videos = document.querySelectorAll(".video video");
@@ -58,6 +92,16 @@ const Post = ({ postData, IsActivePost }) => {
       video.onplay = () => audio.play();
       video.onpause = () => audio.pause();
       video.onseeking = () => (audio.currentTime = video.currentTime);
+    });
+  }, []);
+
+  useEffect(() => {
+    Object.keys(postData.data).forEach((e) => {
+      if (e.includes("cross")) {
+        if (e == "num_crossposts") return;
+        if (e == "is_crosspostable") return;
+        console.log(postData.data);
+      }
     });
   }, []);
 
@@ -137,6 +181,48 @@ const Post = ({ postData, IsActivePost }) => {
               <source src={`${postData.data.url}/DASH_audio.mp4`} />
             </audio>
           </video>
+        </div>
+      ) : (
+        ""
+      )}
+
+      {postData.data.post_hint === "rich:video" ? (
+        <div
+          className="rich_video"
+          dangerouslySetInnerHTML={{
+            __html: postData.data.media_embed.content,
+          }}
+        />
+      ) : (
+        ""
+      )}
+
+      {postData.data.is_gallery ? (
+        <div className="gallery">
+          <div className="arrow_buttons">
+            <div className="prev" onClick={handelGalleryPrev}>
+              <HiOutlineChevronLeft />
+            </div>
+            <div className="next" onClick={handelGalleryNext}>
+              <HiOutlineChevronRight />
+            </div>
+          </div>
+          <div className="pagination">
+            {galleryActiveItem + 1}/{galleryImgsSecSets.length}
+          </div>
+          <div className="imgs">
+            {galleryImgsSecSets.map((e, i) => {
+              return (
+                <div
+                  key={i}
+                  className={galleryActiveItem == i ? "slide active" : "slide"}
+                  style={{ backgroundImage: galleryBgImgsUrls[i] }}
+                >
+                  <img srcSet={e} alt="" />
+                </div>
+              );
+            })}
+          </div>
         </div>
       ) : (
         ""
