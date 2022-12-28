@@ -44,6 +44,12 @@ const Post = ({ postData, IsActivePost }) => {
     }
   };
 
+  if (postData.data.is_gallery) {
+    console.log(postData.data.media_metadata);
+    console.log(postData.data.title);
+    console.log("");
+  }
+
   useEffect(() => {
     let videos = document.querySelectorAll(".video video");
 
