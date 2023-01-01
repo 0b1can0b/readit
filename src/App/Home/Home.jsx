@@ -18,7 +18,7 @@ const Home = () => {
         setIsLoading(false);
         setAfter(json.data.after);
       } catch (error) {
-        setError(error);
+        console.error(error);
       }
     };
     fetchFunction();
