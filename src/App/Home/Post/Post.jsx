@@ -15,11 +15,9 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import timeAgo from "/src/utilities/timeAgo.js";
 
 const Post = ({ postData, IsActivePost }) => {
-  const data = postData.data.crosspost_parent
+  const crosspostData = postData.data.crosspost_parent
     ? postData.data.crosspost_parent_list[0]
-    : postData.data;
-
-  const IsCrossPost = postData.data.crosspost_parent ? true : false;
+    : "";
 
   // useEffect(() => {
   //   if (postData.data.crosspost_parent) {
@@ -28,25 +26,26 @@ const Post = ({ postData, IsActivePost }) => {
   // }, []);
 
   const imgSrcSet =
-    (data.post_hint === "image" || data.post_hint === "link") &&
-    data.preview.images[0].resolutions.length > 0
-      ? data.preview.images[0].resolutions
+    (postData.data.post_hint === "image" ||
+      postData.data.post_hint === "link") &&
+    postData.data.preview.images[0].resolutions.length > 0
+      ? postData.data.preview.images[0].resolutions
           .map((e) => {
             return `${e.url} ${e.width}w`;
           })
           .join(",")
-      : `${data.thumbnail} ${data.thumbnail_width}w`;
+      : `${postData.data.thumbnail} ${postData.data.thumbnail_width}w`;
   const bgImgUrl =
-    (data.post_hint === "image" ||
-      data.post_hint === "link" ||
-      data.post_hint === "hosted:video") &&
-    data.preview.images[0].resolutions.length > 0
-      ? `url("${data.preview.images[0].resolutions[0].url}")`
-      : `url("${data.thumbnail}")`;
+    (postData.data.post_hint === "image" ||
+      postData.data.post_hint === "link" ||
+      postData.data.post_hint === "hosted:video") &&
+    postData.data.preview.images[0].resolutions.length > 0
+      ? `url("${postData.data.preview.images[0].resolutions[0].url}")`
+      : `url("${postData.data.thumbnail}")`;
 
   const galleryImgsSecSets =
-    data.is_gallery &&
-    Object.values(data.media_metadata).map((e) => {
+    postData.data.is_gallery &&
+    Object.values(postData.data.media_metadata).map((e) => {
       return e.p
         .map((e) => {
           return `${e.u} ${e.x}w`;
@@ -54,8 +53,8 @@ const Post = ({ postData, IsActivePost }) => {
         .join(",");
     });
   const galleryBgImgsUrls =
-    data.is_gallery &&
-    Object.values(data.media_metadata).map((e) => {
+    postData.data.is_gallery &&
+    Object.values(postData.data.media_metadata).map((e) => {
       return `url("${e.p[0].u}")`;
     });
 
@@ -80,12 +79,13 @@ const Post = ({ postData, IsActivePost }) => {
   };
 
   const score =
-    data.score >= 1000 ? `${(data.score / 1000).toFixed(2)}k` : data.score;
-
+    postData.data.score >= 1000
+      ? `${(postData.data.score / 1000).toFixed(2)}k`
+      : postData.data.score;
   const comments_score =
-    data.num_comments >= 1000
-      ? `${(data.num_comments / 1000).toFixed(2)}k`
-      : data.num_comments;
+    postData.data.num_comments >= 1000
+      ? `${(postData.data.num_comments / 1000).toFixed(2)}k`
+      : postData.data.num_comments;
 
   const handelClick = (e) => {
     if (
@@ -94,8 +94,9 @@ const Post = ({ postData, IsActivePost }) => {
         (e) => e.className == "arrow_buttons" || e.className == "volume"
       )
     ) {
-      console.log(postData.data);
-      // console.log(`https://www.troddit.com${data.permalink}`);
+      console.log(postData.data.data);
+      // window.open(`${window.location.origin}${postData.data.permalink}`);
+      // console.log(`https://www.troddit.com${postData.data.permalink}`);
     }
   };
 
@@ -117,7 +118,7 @@ const Post = ({ postData, IsActivePost }) => {
 
     const video = videoRef.current;
     if (video) {
-      fetch(`${data.url}/DASH_audio.mp4`).then((res) => {
+      fetch(`${postData.data.url}/DASH_audio.mp4`).then((res) => {
         if (res.status === 403) {
           setIsAudioExist(false);
         } else if (res.status === 200) {
@@ -167,57 +168,42 @@ const Post = ({ postData, IsActivePost }) => {
       className={IsActivePost ? "post active" : "post"}
       onClick={handelClick}
     >
-      {IsCrossPost ? (
-        <div className="crosspost_info">
-          <div className="left">
-            <div className="in_subreddit">
-              <div className="text">
-                <HiArrowPath /> crossposed in
-              </div>
-              <a href="#" className="subreddit">
-                r/{postData.data.subreddit}
-              </a>
-            </div>
-            <div className="by_author">
-              <div className="text">by</div>
-              <a href="#" className="author">
-                u/{postData.data.author}
-              </a>
-            </div>
-          </div>
-          <div className="right">
-            <div className="time_passed">
-              {/* <div className="icon">
-              <HiOutlineClock />
-            </div> */}
-              <div className="text" title={Date(postData.data.created)}>
-                {timeAgo(postData.data.created)}
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
       <div className="meta_info">
-        {/* {data.post_hint ? (
-          <div className="hint">{data.post_hint}</div>
+        {/* {postData.data.post_hint ? (
+          <div className="hint">{postData.data.post_hint}</div>
         ) : (
           ""
         )} */}
         <div className="left">
           <div className="in_subreddit">
             <div className="text">in</div>
-            <a href="#" className="subreddit">
-              r/{data.subreddit}
+            <a
+              href={`${window.location.origin}/r/${postData.data.subreddit}`}
+              className="subreddit"
+              target="_blank"
+              rel="noreferrer"
+            >
+              r/{postData.data.subreddit}
             </a>
           </div>
           <div className="by_author">
             <div className="text">by</div>
             <a href="#" className="author">
-              u/{data.author}
+              u/{postData.data.author}
             </a>
           </div>
+          {crosspostData ? (
+            <div className="crossposted">
+              <div className="text">
+                <HiArrowPath />
+              </div>
+              <div className="crosspost_subreddit">
+                r/{crosspostData.subreddit}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="right">
           <div className="time_passed">
@@ -225,48 +211,48 @@ const Post = ({ postData, IsActivePost }) => {
               <HiOutlineClock />
             </div> */}
             <div className="text" title={Date(postData.data.created)}>
-              {timeAgo(data.created)}
+              {timeAgo(postData.data.created)}
             </div>
           </div>
         </div>
       </div>
 
-      {data.post_hint === "link" ? (
+      {postData.data.post_hint === "link" ? (
         <div className="link_block">
           <div className="image" style={{ backgroundImage: bgImgUrl }}>
             <a
-              href={data.url}
+              href={postData.data.url}
               target="_blank"
               rel="noreferrer"
-              title={data.url}
+              title={postData.data.url}
             >
               <img srcSet={imgSrcSet} alt="" />
             </a>
           </div>
           <div className="body">
-            <div className="title">{data.title}</div>
+            <div className="title">{postData.data.title}</div>
             <a
-              href={data.url}
+              href={postData.data.url}
               target="_blank"
               rel="noreferrer"
               className="link_text_wrapper"
-              title={data.url}
+              title={postData.data.url}
             >
               <div className="link_icon">
                 <FaExternalLinkAlt />
               </div>
               <div className="link_text">
-                {/* {data.domain} */}
-                {data.url}
+                {/* {postData.data.domain} */}
+                {postData.data.url}
               </div>
             </a>
           </div>
         </div>
       ) : (
-        <div className="title">{data.title}</div>
+        <div className="title">{postData.data.title}</div>
       )}
 
-      {data.post_hint === "image" ? (
+      {postData.data.post_hint === "image" ? (
         <div className="image" style={{ backgroundImage: bgImgUrl }}>
           <img srcSet={imgSrcSet} alt="" />
         </div>
@@ -274,12 +260,12 @@ const Post = ({ postData, IsActivePost }) => {
         ""
       )}
 
-      {data.post_hint === "hosted:video" || data.is_video ? (
+      {postData.data.post_hint === "hosted:video" || postData.data.is_video ? (
         <div className="video" style={{ backgroundImage: bgImgUrl }}>
           <video ref={videoRef} controls>
-            <source src={data.media.reddit_video.fallback_url} />
+            <source src={postData.data.media.reddit_video.fallback_url} />
             <audio controls>
-              <source src={`${data.url}/DASH_audio.mp4`} />
+              <source src={`${postData.data.url}/DASH_audio.mp4`} />
             </audio>
           </video>
           <div
@@ -295,18 +281,18 @@ const Post = ({ postData, IsActivePost }) => {
         ""
       )}
 
-      {data.post_hint === "rich:video" ? (
+      {postData.data.post_hint === "rich:video" ? (
         <div
           className="rich_video"
           dangerouslySetInnerHTML={{
-            __html: data.media_embed.content,
+            __html: postData.data.media_embed.content,
           }}
         />
       ) : (
         ""
       )}
 
-      {data.is_gallery ? (
+      {postData.data.is_gallery ? (
         <div className="gallery">
           <div className="arrow_buttons">
             <div className="prev" onClick={handelGalleryPrev}>
@@ -337,10 +323,10 @@ const Post = ({ postData, IsActivePost }) => {
         ""
       )}
 
-      {data.selftext_html ? (
+      {postData.data.selftext_html ? (
         <div
           className="self_text"
-          dangerouslySetInnerHTML={{ __html: data.selftext_html }}
+          dangerouslySetInnerHTML={{ __html: postData.data.selftext_html }}
         />
       ) : (
         ""
@@ -366,7 +352,7 @@ const Post = ({ postData, IsActivePost }) => {
             {/* <div className="icon">
               <HiOutlineHeart />
             </div> */}
-            <div className="text">{data.upvote_ratio * 100}%</div>
+            <div className="text">{postData.data.upvote_ratio * 100}%</div>
           </div>
           <a
             href={`https://reddit.com${postData.data.permalink}`}

@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
+import { useHref } from "react-router-dom";
 import Loading from "/src/utilities/Loading.jsx";
 import Post from "./Post/Post";
 
 const Home = () => {
-  const url = "https://www.reddit.com/.json?raw_json=1";
+  const path = useHref();
+
+  const url = `https://www.reddit.com${
+    path === "/" ? "/r/popular" : path
+  }.json?raw_json=1`;
 
   const [postsData, setPostsData] = useState([]);
   const [after, setAfter] = useState(null);
@@ -28,7 +33,9 @@ const Home = () => {
   const fetchMoreItems = async () => {
     try {
       const response = await fetch(
-        `https://www.reddit.com/.json?after=${after}&raw_json=1`
+        `https://www.reddit.com${
+          path === "/" ? "/r/popular" : path
+        }.json?after=${after}&raw_json=1`
       );
       const json = await response.json();
       setAfter(json.data.after);
