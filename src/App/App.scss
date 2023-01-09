@@ -314,6 +314,20 @@ body {
             max-width: 100%;
             display: block;
           }
+
+          position: absolute;
+          .caption {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 50%;
+            translate: -50%;
+            width: max-content;
+            max-width: 90%;
+            background-color: hsl(220 15% 20% / 0.75);
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+          }
         }
       }
     }

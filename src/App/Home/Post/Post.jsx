@@ -58,6 +58,15 @@ const Post = ({ postData, IsActivePost }) => {
       return `url("${e.p[0].u}")`;
     });
 
+  const galleryCaptions =
+    postData.data.is_gallery &&
+    postData.data.gallery_data.items.map((e) => (e.caption ? e.caption : null));
+  useEffect(() => {
+    if (postData.data.is_gallery && galleryCaptions.some((e) => e)) {
+      console.log(galleryCaptions);
+    }
+  }, []);
+
   const [galleryActiveItem, setGalleryActiveItem] = useState(0);
   const handelGalleryPrev = () => {
     setGalleryActiveItem((prev) => {
@@ -91,10 +100,13 @@ const Post = ({ postData, IsActivePost }) => {
     if (
       e.target.tagName !== "VIDEO" &&
       !e.nativeEvent.path.some(
-        (e) => e.className == "arrow_buttons" || e.className == "volume"
+        (e) =>
+          e.className == "arrow_buttons" ||
+          e.className == "volume" ||
+          e.tagName == "A"
       )
     ) {
-      console.log(postData.data.data);
+      console.log(postData.data);
       // window.open(`${window.location.origin}${postData.data.permalink}`);
       // console.log(`https://www.troddit.com${postData.data.permalink}`);
     }
@@ -314,6 +326,11 @@ const Post = ({ postData, IsActivePost }) => {
                   style={{ backgroundImage: galleryBgImgsUrls[i] }}
                 >
                   <img srcSet={e} alt="" />
+                  {galleryCaptions[i] ? (
+                    <div className="caption">{galleryCaptions[i]}</div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               );
             })}
