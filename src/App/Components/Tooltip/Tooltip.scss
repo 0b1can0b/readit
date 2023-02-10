@@ -1,0 +1,116 @@
+@import "src/App/Main.scss";
+
+.tooltip {
+  display: flex;
+  position: relative;
+
+  .tooltip-tip {
+    position: absolute;
+    background-color: rgba($clr_bg_3, 0.75);
+    backdrop-filter: blur(2.5px);
+    border: 1px solid $clr_bg_4;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    line-height: 1;
+    font-weight: 400;
+    width: max-content;
+    z-index: 99;
+
+    transition: 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+    opacity: 0;
+    pointer-events: none;
+    scale: 0.9;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    & > svg {
+      $size: 1.25rem;
+      width: $size;
+      height: $size;
+    }
+  }
+
+  &.open .tooltip-tip {
+    opacity: 1;
+    // pointer-events: all;
+    scale: 1;
+  }
+
+  &.top-left .tooltip-tip {
+    left: 0;
+    bottom: calc(100% + 0.5rem);
+    transform-origin: bottom left;
+  }
+  &.top-center .tooltip-tip {
+    left: 50%;
+    translate: -50%;
+    bottom: calc(100% + 0.5rem);
+    transform-origin: bottom center;
+  }
+  &.top-right .tooltip-tip {
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    transform-origin: bottom right;
+  }
+
+  &.right-top .tooltip-tip {
+    bottom: auto;
+    top: 0;
+    left: calc(100% + 0.5rem);
+    transform-origin: bottom left;
+  }
+  &.right-middle .tooltip-tip {
+    bottom: auto;
+    top: 50%;
+    translate: 0 -50%;
+    left: calc(100% + 0.5rem);
+    transform-origin: center left;
+  }
+  &.right-bottom .tooltip-tip {
+    bottom: 0;
+    left: calc(100% + 0.5rem);
+    transform-origin: top left;
+  }
+
+  &.bottom-left .tooltip-tip {
+    left: 0;
+    top: calc(100% + 0.5rem);
+    transform-origin: top left;
+  }
+  &.bottom-center .tooltip-tip {
+    left: 50%;
+    translate: -50%;
+    top: calc(100% + 0.5rem);
+    transform-origin: top center;
+  }
+  &.bottom-right .tooltip-tip {
+    right: 0;
+    top: calc(100% + 0.5rem);
+    transform-origin: top right;
+  }
+
+  &.left-top .tooltip-tip {
+    bottom: auto;
+    top: 0;
+    right: calc(100% + 0.5rem);
+    transform-origin: bottom right;
+  }
+  &.left-middle .tooltip-tip {
+    bottom: auto;
+    top: 50%;
+    translate: 0 -50%;
+    right: calc(100% + 0.5rem);
+    transform-origin: center right;
+  }
+  &.left-bottom .tooltip-tip {
+    bottom: 0;
+    right: calc(100% + 0.5rem);
+    transform-origin: top right;
+  }
+
+  .tooltip-inner {
+    display: flex;
+  }
+}

@@ -1,0 +1,28 @@
+@import "src/App/Main.scss";
+
+.button {
+  all: unset;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: $clr_bg_3;
+  color: $clr_txt_3;
+  border-radius: 0.25rem;
+  font-size: 1.25rem;
+
+  transition: 0.15s ease-out;
+  &:hover {
+    background-color: $clr_bg_4;
+  }
+
+  & > :is(.icon, .text):empty {
+    display: none;
+  }
+
+  &:has(> .text:empty) {
+    padding: 0.75rem;
+  }
+}
