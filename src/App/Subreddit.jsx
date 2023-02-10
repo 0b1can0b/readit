@@ -75,14 +75,58 @@ const Subreddit = () => {
     }
   }, [sort]);
 
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [after, setAfter] = useState(null);
   useEffect(() => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => setData(json.data));
+    const fetchFunction = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json.data.children);
+        setAfter(json.data.after);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchFunction();
+  }, []);
 
-    return () => setData();
-  }, [url]);
+  const [IsLoadingMoreItems, setIsLoadingMoreItems] = useState(false);
+  const fetchMoreItems = async () => {
+    try {
+      const response = await fetch(
+        `https://www.reddit.com/r/${params.sub}/.json?after=${after}&raw_json=1`
+      );
+      const json = await response.json();
+      setAfter(json.data.after);
+      json.data.children.forEach((newFetchedPost) => {
+        setData((prev) => [...prev, newFetchedPost]);
+      });
+      setIsLoadingMoreItems(false);
+    } catch (error) {
+      setError(error);
+    }
+  };
+  useEffect(() => {
+    window.onscroll = () => {
+      if (
+        window.scrollY > 1000 &&
+        window.innerHeight +
+          window.scrollY -
+          document.body.scrollHeight +
+          500 >=
+          0 &&
+        !IsLoadingMoreItems
+      ) {
+        setIsLoadingMoreItems(true);
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (IsLoadingMoreItems) {
+      fetchMoreItems();
+    }
+  }, [IsLoadingMoreItems]);
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
@@ -149,9 +193,9 @@ const Subreddit = () => {
           </div>
         </div>
       </div>
-      {data ? (
+      {data.length > 0 ? (
         <div className="posts">
-          {data.children.map((e, i) => {
+          {data.map((e, i) => {
             return <SubPost key={i} postData={e.data} />;
           })}
         </div>
