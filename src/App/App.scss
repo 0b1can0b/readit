@@ -761,6 +761,14 @@ body {
             sup {
               font-size: 60%;
             }
+            blockquote {
+              margin: 0;
+              padding: 5px 10px;
+              background: rgba($clr_bg_5, 0.5);
+              border: 2px solid rgba($clr_bg_6, 0.25);
+              border-left: 4px solid rgba($clr_bg_6, 0.5);
+              border-radius: 0 0.5rem 0.5rem 0;
+            }
           }
         }
 
