@@ -271,7 +271,7 @@ const SubPost = ({ postData, IsActivePost }) => {
         <div className="video" style={{ backgroundImage: bgImgUrl }}>
           <video ref={videoRef} controls>
             <source src={postData.media.reddit_video.fallback_url} />
-            <audio controls>
+            <audio controls muted>
               <source src={`${postData.url}/DASH_audio.mp4`} />
             </audio>
           </video>
