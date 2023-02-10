@@ -98,12 +98,11 @@ const SubPost = ({ postData, IsActivePost }) => {
   const handelClick = (e) => {
     if (e.target.tagName === "VIDEO") return;
     if (e.target.tagName === "A") return;
-    if (
-      e.target.className == "arrow_buttons" ||
-      e.target.closest(".arrow_buttons")
-    )
-      return;
-    if (e.target.className == "volume" || e.target.closest(".volume")) return;
+    if (e.target.closest("a")) return;
+    if (e.target.className == "arrow_buttons") return;
+    if (e.target.closest(".arrow_buttons")) return;
+    if (e.target.className == "volume") return;
+    if (e.target.closest(".volume")) return;
 
     window.open(`${window.location.origin}${postData.permalink}`, "_blank");
   };
