@@ -220,6 +220,14 @@ const Comments = () => {
         {commentData.data.replies ? (
           <div className="replies">
             {commentData.data.replies.data.children.map((e, i) => {
+              if (e.kind === "more") {
+                return (
+                  <div className="more-replies-button">
+                    {e.data.children.length} more{" "}
+                    {e.data.children.length === 1 ? "reply" : "replies"}
+                  </div>
+                );
+              }
               return <Comment key={i} commentData={e} />;
             })}
           </div>
