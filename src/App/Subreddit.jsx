@@ -89,7 +89,8 @@ const Subreddit = () => {
       }
     };
     fetchFunction();
-  }, []);
+    return () => setData([]);
+  }, [url]);
 
   const [IsLoadingMoreItems, setIsLoadingMoreItems] = useState(false);
   const fetchMoreItems = async () => {
