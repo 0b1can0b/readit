@@ -205,8 +205,9 @@ const SubPost = ({ postData, IsActivePost }) => {
               href={`${window.location.origin}${crosspostData.permalink}`}
               target="_blank"
             >
-              <div className="text">
+              <div className="icon">
                 <HiArrowPath />
+                {/* <div className="text">crossposted from</div> */}
               </div>
               <div className="crosspost_subreddit">
                 r/{crosspostData.subreddit}

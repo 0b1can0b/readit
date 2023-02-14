@@ -889,6 +889,19 @@ body {
         .crossposted {
           display: flex;
           gap: 0.5ch;
+          align-items: center;
+          margin-left: 0.5rem;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          .icon {
+            display: flex;
+            align-items: center;
+            gap: 0.5ch;
+          }
         }
       }
 
