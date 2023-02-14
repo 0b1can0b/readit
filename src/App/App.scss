@@ -1334,7 +1334,11 @@ body {
     th,
     td {
       padding: 0.25rem 0.5rem;
-      border: 1px solid rgba($clr_txt_5, 0.125);
+      border: 1px solid rgba($clr_txt_5, 0.5);
+    }
+
+    code {
+      font-family: JetBrains Mono;
     }
   }
 }
