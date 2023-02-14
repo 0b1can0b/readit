@@ -41,6 +41,7 @@ const Comments = () => {
   useEffect(() => window.scrollTo(0, 0), [refresh]);
 
   const [data, setData] = useState([]);
+  const [postData, setPostData] = useState();
   useEffect(() => {
     fetch(
       params.commentId
@@ -50,9 +51,13 @@ const Comments = () => {
       .then((res) => res.json())
       .then((json) => {
         setData(json[1].data.children);
+        setPostData(json[0].data.children[0].data);
       });
 
-    return () => setData([]);
+    return () => {
+      setData([]);
+      setPostData();
+    };
   }, [refresh]);
 
   useEffect(() => {
@@ -273,6 +278,8 @@ const Comments = () => {
 
   return (
     <div className="comments-page">
+      {postData ? <SubPost postData={postData} /> : ""}
+
       {data.length === 0 ? (
         ""
       ) : (
