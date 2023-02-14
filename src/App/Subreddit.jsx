@@ -115,7 +115,7 @@ const Subreddit = () => {
         window.innerHeight +
           window.scrollY -
           document.body.scrollHeight +
-          500 >=
+          1000 >=
           0 &&
         !IsLoadingMoreItems
       ) {

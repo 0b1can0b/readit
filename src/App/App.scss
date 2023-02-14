@@ -153,6 +153,8 @@ body {
 
         scroll-margin-top: 1rem;
 
+        max-height: calc(100vh - 2rem);
+
         cursor: pointer;
         transition: background-color 0.25s ease;
         &:not(:has(.arrow_buttons:hover)):hover {
@@ -229,6 +231,8 @@ body {
           background-size: cover;
           background-position: center center;
 
+          overflow: hidden;
+
           isolation: isolate;
           position: relative;
           &:after {
@@ -241,7 +245,8 @@ body {
 
           img {
             max-width: 100%;
-            max-height: 50vh;
+            // max-height: 50vh;
+            max-height: 100%;
           }
         }
 
@@ -251,6 +256,8 @@ body {
           text-align: center;
           background-size: cover;
           background-position: center center;
+
+          overflow: hidden;
 
           isolation: isolate;
           position: relative;
@@ -287,7 +294,8 @@ body {
           video {
             max-width: 100%;
             width: 100%;
-            max-height: 50vh;
+            // max-height: 50vh;
+            max-height: 100%;
           }
         }
 
@@ -295,9 +303,12 @@ body {
           width: calc(100% + 2rem);
           margin: 0 -1rem;
 
+          overflow: hidden;
+
           iframe {
             width: 100%;
-            max-height: 50vh;
+            // max-height: 50vh;
+            max-height: 100%;
           }
         }
 
@@ -312,6 +323,8 @@ body {
           gap: 2rem;
 
           position: relative;
+
+          overflow: hidden;
 
           .arrow_buttons {
             display: flex;
@@ -400,8 +413,9 @@ body {
               }
 
               img {
-                max-height: 50vh;
-                max-width: 100%;
+                // max-height: 50vh;
+            max-height: 100%;
+            max-width: 100%;
                 display: block;
               }
 
@@ -426,6 +440,8 @@ body {
           display: flex;
           gap: 1rem;
           min-height: 8rem;
+
+          overflow: hidden;
 
           .image {
             flex: 2;
@@ -483,6 +499,8 @@ body {
           border-radius: 0.5rem;
           background-color: hsl(220 10% 20%);
           width: 100%;
+
+          overflow: hidden;
 
           .md {
             line-height: 1.25;
