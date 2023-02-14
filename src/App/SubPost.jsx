@@ -170,6 +170,19 @@ const SubPost = ({ postData, IsActivePost }) => {
     }
   }, [IsVideoMute]);
 
+  const [flairImgs, setFlairImgs] = useState([]);
+  const [flairText, setFlairText] = useState("");
+  useEffect(() => {
+    if (!postData.author_flair_richtext) return;
+    if (postData.author_flair_richtext.length === 0) return;
+    const arr = postData.author_flair_richtext;
+
+    arr.forEach((e) => {
+      if (e.u) setFlairImgs((prev) => [...prev, e.u]);
+    });
+    setFlairText(arr[arr.length - 1].t);
+  }, []);
+
   return (
     <div
       className={IsActivePost ? "post active" : "post"}
@@ -193,12 +206,30 @@ const SubPost = ({ postData, IsActivePost }) => {
               r/{postData.subreddit}
             </a>
           </div>
+
           <div className="by_author">
             <div className="text">by</div>
             <a href="#" className="author">
               u/{postData.author}
             </a>
+            {flairText ? (
+              <div className="flair">
+                {flairImgs.length > 0 ? (
+                  <div className="flair-imgs">
+                    {flairImgs.map((e) => {
+                      return <img src={e} alt={e} key={e} />;
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="flair-text">{flairText}</div>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
+
           {crosspostData ? (
             <a
               className="crossposted"
