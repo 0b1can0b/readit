@@ -5,6 +5,7 @@ import { FiRefreshCw } from "react-icons/fi";
 import Button from "/src/App/Components/Button/Button";
 
 import SubPost from "./SubPost";
+import { FaLayerGroup } from "react-icons/fa";
 
 // const htmlDecode = (content) => {
 //   let e = document.createElement("div");
@@ -62,37 +63,42 @@ const Comments = () => {
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
-      if (key.shiftKey || key.ctrlKey || key.altKey) return;
-      if (key.key === "f") {
-        key.preventDefault();
-        const items = document.querySelectorAll(".comment-body");
-        if (items.length === 0) return;
-        let itemTopOffsets = [];
-        items.forEach((item) =>
-          itemTopOffsets.push({
-            item: item,
-            top: item.getBoundingClientRect().top,
-          })
+      if (key.ctrlKey || key.altKey) return;
+      if (!["f", "r", "F", "R"].some((e) => e === key.key)) return;
+
+      key.preventDefault();
+      let items;
+      if (key.key === "f" || key.key === "r") {
+        items = document.querySelectorAll(
+          ".comment-body:not(.collapse .comment-body:not(.collapse > .comment-body))"
         );
-        const filteredItemsObj = itemTopOffsets.filter((obj) => obj.top > 10);
-        if (!filteredItemsObj[0]) return;
-        if (!filteredItemsObj[0].item) return;
+      }
+      if (key.key === "F" || key.key === "R") {
+        items = document.querySelectorAll(
+          ".comments > .comment > .comment-body"
+        );
+      }
+      if (items.length === 0) return;
+      let itemTopOffsets = [];
+      items.forEach((item) =>
+        itemTopOffsets.push({
+          item: item,
+          top: item.getBoundingClientRect().top,
+        })
+      );
+      let filteredItemsObj;
+      if (key.key === "f" || key.key === "F") {
+        filteredItemsObj = itemTopOffsets.filter((obj) => obj.top > 10);
+      }
+      if (key.key === "r" || key.key === "R") {
+        filteredItemsObj = itemTopOffsets.filter((obj) => obj.top < -10);
+      }
+      if (!filteredItemsObj[0]) return;
+      if (!filteredItemsObj[0].item) return;
+      if (key.key === "f" || key.key === "F") {
         filteredItemsObj[0].item.scrollIntoView();
       }
-      if (key.key === "r") {
-        key.preventDefault();
-        const items = document.querySelectorAll(".comment-body");
-        if (items.length === 0) return;
-        let itemTopOffsets = [];
-        items.forEach((item) =>
-          itemTopOffsets.push({
-            item: item,
-            top: item.getBoundingClientRect().top,
-          })
-        );
-        const filteredItemsObj = itemTopOffsets.filter((obj) => obj.top < -10);
-        if (!filteredItemsObj[filteredItemsObj.length - 1]) return;
-        if (!filteredItemsObj[filteredItemsObj.length - 1].item) return;
+      if (key.key === "r" || key.key === "R") {
         filteredItemsObj[filteredItemsObj.length - 1].item.scrollIntoView();
       }
     };
@@ -265,6 +271,7 @@ const Comments = () => {
                     href={`${commentData.data.id}`}
                     target="_blank"
                     rel="noreferrer"
+                    key={i}
                   >
                     {e.data.children.length} more{" "}
                     {e.data.children.length === 1 ? "reply" : "replies"}
