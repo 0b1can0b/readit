@@ -232,10 +232,15 @@ const Comments = () => {
             {commentData.data.replies.data.children.map((e, i) => {
               if (e.kind === "more") {
                 return (
-                  <div className="more-replies-button">
+                  <a
+                    className="more-replies-button"
+                    href={`${commentData.data.id}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {e.data.children.length} more{" "}
                     {e.data.children.length === 1 ? "reply" : "replies"}
-                  </div>
+                  </a>
                 );
               }
               return <Comment key={i} commentData={e} />;
