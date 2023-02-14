@@ -1286,6 +1286,10 @@ body {
       .comments {
         flex-direction: row;
       }
+
+      .md {
+        display: block !important;
+      }
     }
   }
 }
