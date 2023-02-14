@@ -198,6 +198,11 @@ const Comments = () => {
                 <img src={iconImgUrl} alt={iconImgUrl} />
               </div>
               <div className="user-name">{commentData.data.author}</div>
+              {commentData.data.is_submitter ? (
+                <div className="op">OP</div>
+              ) : (
+                ""
+              )}
             </div>
 
             {flairText ? (

@@ -44,6 +44,7 @@ const SubPost = ({ postData, IsActivePost }) => {
 
   const galleryImgsSecSets =
     postData.is_gallery &&
+    postData.media_metadata &&
     Object.values(postData.media_metadata).map((e) => {
       return e.p
         .map((e) => {
@@ -53,18 +54,15 @@ const SubPost = ({ postData, IsActivePost }) => {
     });
   const galleryBgImgsUrls =
     postData.is_gallery &&
+    postData.media_metadata &&
     Object.values(postData.media_metadata).map((e) => {
       return `url("${e.p[0].u}")`;
     });
 
   const galleryCaptions =
     postData.is_gallery &&
+    postData.media_metadata &&
     postData.gallery_data.items.map((e) => (e.caption ? e.caption : null));
-  useEffect(() => {
-    if (postData.is_gallery && galleryCaptions.some((e) => e)) {
-      console.log(galleryCaptions);
-    }
-  }, []);
 
   const [galleryActiveItem, setGalleryActiveItem] = useState(0);
   const handelGalleryPrev = () => {
@@ -202,14 +200,18 @@ const SubPost = ({ postData, IsActivePost }) => {
             </a>
           </div>
           {crosspostData ? (
-            <div className="crossposted">
+            <a
+              className="crossposted"
+              href={`${window.location.origin}${crosspostData.permalink}`}
+              target="_blank"
+            >
               <div className="text">
                 <HiArrowPath />
               </div>
               <div className="crosspost_subreddit">
                 r/{crosspostData.subreddit}
               </div>
-            </div>
+            </a>
           ) : (
             ""
           )}
@@ -301,7 +303,7 @@ const SubPost = ({ postData, IsActivePost }) => {
         ""
       )}
 
-      {postData.is_gallery ? (
+      {postData.is_gallery && postData.media_metadata ? (
         <div className="gallery">
           <div className="arrow_buttons">
             <div className="prev" onClick={handelGalleryPrev}>

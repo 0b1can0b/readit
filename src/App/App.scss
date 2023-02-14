@@ -712,6 +712,14 @@ body {
                   height: $size;
                 }
               }
+
+              .op {
+                padding: 0.25rem;
+                border-radius: 0.25rem;
+                font-size: 0.8rem;
+                background-color: hsl(220 75% 50%);
+                color: $clr_txt_2;
+              }
             }
 
             .created {
