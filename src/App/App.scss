@@ -892,6 +892,26 @@ body {
           }
         }
 
+        .flair {
+          color: $clr_txt_4;
+          display: flex;
+          gap: 0.25rem;
+          align-items: center;
+
+          font-weight: 400;
+          font-size: 0.8rem;
+
+          .flair-imgs {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+
+            img {
+              max-height: 1rem;
+            }
+          }
+        }
+
         .crossposted {
           display: flex;
           gap: 0.5ch;
