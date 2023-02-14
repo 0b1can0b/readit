@@ -104,6 +104,8 @@ const SubPost = ({ postData, IsActivePost }) => {
     if (e.target.className == "volume") return;
     if (e.target.closest(".volume")) return;
 
+    if (window.location.href.includes("/comments/")) return;
+
     window.open(`${window.location.origin}${postData.permalink}`, "_blank");
   };
 
