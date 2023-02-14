@@ -6,11 +6,11 @@ import Button from "/src/App/Components/Button/Button";
 
 import SubPost from "./SubPost";
 
-const htmlDecode = (content) => {
-  let e = document.createElement("div");
-  e.innerHTML = content;
-  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-};
+// const htmlDecode = (content) => {
+//   let e = document.createElement("div");
+//   e.innerHTML = content;
+//   return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+// };
 
 const getRelativeFormattedTime = (time) => {
   time = Math.floor(new Date() / 1000 - time);
@@ -56,10 +56,6 @@ const Comments = () => {
   }, [refresh]);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
-
-  useEffect(() => {
     document.body.onkeydown = (key) => {
       if (key.shiftKey || key.ctrlKey || key.altKey) return;
       if (key.key === "f") {
@@ -98,10 +94,6 @@ const Comments = () => {
   }, []);
 
   const Comment = ({ commentData }) => {
-    // if (commentData.data.replies) {
-    //   console.log(commentData.data.replies.data.children);
-    // }
-
     const [state, setState] = useState(false);
     useEffect(() => {
       const int = setInterval(() => setState((prev) => !prev), 5000);
@@ -121,8 +113,22 @@ const Comments = () => {
       setFlairText(arr[arr.length - 1].t);
     }, []);
 
+    const [collapse, setCollapse] = useState(false);
     const handelClick = (e) => {
+      if (collapse) setCollapse(false);
+      if (!e.altKey) return;
+      if (collapse) setCollapse(false);
+      if (!collapse) setCollapse(true);
+    };
+
+    let time = 0;
+    const handelMouseDown = (e) => {
       if (!e.ctrlKey) return;
+      time = new Date() * 1;
+    };
+    const handelMouseUp = (e) => {
+      if (!e.ctrlKey) return;
+      if (new Date() * 1 - time > 100) return;
       window.open(
         `https://www.troddit.com${commentData.data.permalink}`,
         "_blank"
@@ -131,9 +137,16 @@ const Comments = () => {
 
     const [iconImgUrl, setIconImgUrl] = useState("");
     useEffect(() => {
-      fetch(`https://www.reddit.com/user/${commentData.data.author}/about.json`)
+      if (commentData.data.author === "[deleted]") return;
+      fetch(
+        `https://www.reddit.com/user/${commentData.data.author}/about.json?raw_json=1`
+      )
         .then((e) => e.json())
-        .then((e) => setIconImgUrl(htmlDecode(e.data.subreddit.icon_img)));
+        .then((e) => {
+          if (!e.data.subreddit) return;
+          setIconImgUrl(e.data.subreddit.icon_img);
+        });
+      return () => setIconImgUrl("");
     }, []);
 
     const handelParentClick = (e) => {
@@ -167,8 +180,13 @@ const Comments = () => {
     };
 
     return (
-      <div className="comment">
-        <div className="comment-body" onClick={handelClick}>
+      <div className={collapse ? "comment collapse" : "comment"}>
+        <div
+          className="comment-body"
+          onClick={handelClick}
+          onMouseDown={handelMouseDown}
+          onMouseUp={handelMouseUp}
+        >
           <div className="comment-header">
             <div className="user">
               <div className="user-img">
