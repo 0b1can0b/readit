@@ -43,7 +43,9 @@ const Comments = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     fetch(
-      `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json`
+      params.commentId
+        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&context=20`
+        : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -52,6 +54,10 @@ const Comments = () => {
 
     return () => setData([]);
   }, [refresh]);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
@@ -171,9 +177,22 @@ const Comments = () => {
               <div className="user-name">{commentData.data.author}</div>
             </div>
 
-            <div className="created">
-              {getRelativeFormattedTime(commentData.data.created)}
-            </div>
+            {flairText ? (
+              <div className="flair">
+                {flairImgs.length > 0 ? (
+                  <div className="flair-imgs">
+                    {flairImgs.map((e) => {
+                      return <img src={e} alt={e} key={e} />;
+                    })}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="flair-text">{flairText}</div>
+              </div>
+            ) : (
+              ""
+            )}
 
             {commentData.data.depth ? (
               <div
@@ -191,28 +210,19 @@ const Comments = () => {
               ""
             )}
 
-            {flairText ? (
-              <div className="flair">
-                {flairImgs.length > 0 ? (
-                  <div className="flair-imgs">
-                    {flairImgs.map((e) => {
-                      return <img src={e} alt={e} key={e} />;
-                    })}
-                  </div>
-                ) : (
-                  ""
-                )}
-                <div className="flair-text">{flairText}</div>
-              </div>
-            ) : (
-              ""
-            )}
+            <a
+              className="created"
+              href={`${commentData.data.id}`}
+              target="_blank"
+            >
+              {getRelativeFormattedTime(commentData.data.created)}
+            </a>
           </div>
 
           <div
             className="comment-text"
             dangerouslySetInnerHTML={{
-              __html: htmlDecode(commentData.data.body_html),
+              __html: commentData.data.body_html,
             }}
           />
         </div>
@@ -240,13 +250,6 @@ const Comments = () => {
 
   return (
     <div className="comments-page">
-      <div className="refresh-button">
-        <Button
-          onClick={() => setRefresh((prev) => !prev)}
-          icon={<FiRefreshCw />}
-        />
-      </div>
-
       {data.length === 0 ? (
         ""
       ) : (

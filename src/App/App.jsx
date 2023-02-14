@@ -22,6 +22,10 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="r/:sub" element={<Subreddit />} />
         <Route path="r/:sub/comments/:id/:rest" element={<Comments />} />
+        <Route
+          path="r/:sub/comments/:id/:rest/:commentId"
+          element={<Comments />}
+        />
       </Routes>
     </div>
   );

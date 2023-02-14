@@ -670,6 +670,8 @@ body {
               font-weight: 400;
               color: $clr_txt_4;
               font-size: 0.8rem;
+              margin-left: auto;
+              padding-left: 0.5rem;
             }
 
             .parent {
@@ -702,7 +704,7 @@ body {
                   position: relative;
 
                   .comment-text {
-                    line-height: 1.2;
+                    line-height: 1.25;
                   }
                 }
 
@@ -716,8 +718,6 @@ body {
             }
 
             .flair {
-              margin-left: auto;
-              padding-left: 0.5rem;
               color: $clr_txt_4;
               display: flex;
               gap: 0.25rem;
