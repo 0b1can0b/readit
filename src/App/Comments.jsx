@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FiRefreshCw } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 
 import Button from "/src/App/Components/Button/Button";
 
@@ -93,18 +94,20 @@ const Comments = () => {
       if (key.key === "r" || key.key === "R") {
         filteredItemsObj = itemTopOffsets.filter((obj) => obj.top < -10);
       }
-      if (!filteredItemsObj[0]) return;
-      if (!filteredItemsObj[0].item) return;
+      if (!filteredItemsObj.at(0)) return;
+      if (!filteredItemsObj.at(0).item) return;
       if (key.key === "f" || key.key === "F") {
-        filteredItemsObj[0].item.scrollIntoView();
+        filteredItemsObj.at(0).item.scrollIntoView();
       }
       if (key.key === "r" || key.key === "R") {
-        filteredItemsObj[filteredItemsObj.length - 1].item.scrollIntoView();
+        filteredItemsObj.at(-1).item.scrollIntoView();
       }
     };
   }, []);
 
-  const Comment = ({ commentData }) => {
+  const Comment = memo(({ commentData }) => {
+    if (!commentData) return;
+
     const [state, setState] = useState(false);
     useEffect(() => {
       const int = setInterval(() => setState((prev) => !prev), 5000);
@@ -190,10 +193,65 @@ const Comments = () => {
       parentTooltip.classList.remove("bottom");
     };
 
+    const [moreReplies, setMoreReplies] = useState([]);
+    const fetchMoreReplies = (e) => {
+      e.forEach((e) => {
+        fetch(
+          `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${e}.json?raw_json=1`
+        )
+          .then((e) => e.json())
+          .then((e) => {
+            setMoreReplies((prev) => [...prev, e[1].data.children[0]]);
+          });
+      });
+    };
+
+    const handelContext = (e) => {
+      let arr = [];
+
+      const comment = e.target.closest(
+        ".comment-body:not(.context-comments > .comment-body)"
+      );
+      if (!comment) return;
+
+      arr.push(comment);
+
+      const loopFun = (e) => {
+        if (!e) {
+          const popup = document.querySelector(".context-comments");
+          arr.reverse().forEach((e) => {
+            popup.append(e.cloneNode(true));
+          });
+          document.querySelector(".context-popup").classList.add("active");
+          document.body.style.overflow = "hidden";
+
+          const closePopupFunction = () => {
+            document.body.style.overflow = "";
+            popup.innerHTML = "";
+            document.querySelector(".context-popup").classList.remove("active");
+          };
+          document.querySelector(".context-popup .close-popup").onclick = () =>
+            closePopupFunction();
+          document.onclick = (e) => {
+            if (!e.target.classList.contains("context-popup")) return;
+            closePopupFunction();
+          };
+        }
+        if (!e) return;
+        arr.push(e.previousSibling);
+        loopFun(e.previousSibling.closest(".replies"));
+      };
+      loopFun(comment.closest(".replies"));
+    };
+
     return (
       <div className={collapse ? "comment collapse" : "comment"}>
         <div
-          className="comment-body"
+          className={
+            commentData.data.id === params.commentId
+              ? "comment-body highlight"
+              : "comment-body"
+          }
           onClick={handelClick}
           onMouseDown={handelMouseDown}
           onMouseUp={handelMouseUp}
@@ -228,7 +286,7 @@ const Comments = () => {
               ""
             )}
 
-            {commentData.data.depth ? (
+            {commentData.data.parent_id.split("_").at(0) === "t1" ? (
               <div
                 className="parent"
                 onClick={handelParentClick}
@@ -239,6 +297,14 @@ const Comments = () => {
                   {">>"} {commentData.data.parent_id.split("_")[1]}
                 </div>
                 <div className="parent-tooltip"></div>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {commentData.data.parent_id.split("_").at(0) === "t1" ? (
+              <div className="context-button" onClick={handelContext}>
+                {">>"} context
               </div>
             ) : (
               ""
@@ -265,28 +331,32 @@ const Comments = () => {
           <div className="replies">
             {commentData.data.replies.data.children.map((e, i) => {
               if (e.kind === "more") {
+                if (moreReplies.length > 0) return;
                 return (
-                  <a
-                    className="more-replies-button"
-                    href={`${commentData.data.id}`}
-                    target="_blank"
-                    rel="noreferrer"
+                  <div
                     key={i}
+                    className="more-replies-button"
+                    onClick={() => fetchMoreReplies(e.data.children)}
                   >
                     {e.data.children.length} more{" "}
                     {e.data.children.length === 1 ? "reply" : "replies"}
-                  </a>
+                  </div>
                 );
               }
               return <Comment key={i} commentData={e} />;
             })}
+            {moreReplies.length > 0
+              ? moreReplies.map((e, i) => {
+                  return <Comment key={i} commentData={e} />;
+                })
+              : ""}
           </div>
         ) : (
           ""
         )}
       </div>
     );
-  };
+  });
 
   return (
     <div className="comments-page">
@@ -299,6 +369,19 @@ const Comments = () => {
           {data.map((e, i) => {
             return <Comment key={i} commentData={e} />;
           })}
+        </div>
+      )}
+
+      {data.length === 0 ? (
+        ""
+      ) : (
+        <div className="context-popup">
+          <div className="context-popup-inner">
+            <div className="close-popup">
+              <IoClose />
+            </div>
+            <div className="context-comments"></div>
+          </div>
         </div>
       )}
     </div>

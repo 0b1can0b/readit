@@ -585,8 +585,7 @@ body {
   .comments-page {
     display: flex;
     flex-direction: column;
-    // align-items: flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     padding: 2rem;
     width: 100%;
@@ -596,23 +595,23 @@ body {
 
     position: relative;
 
-    .refresh-button {
-      position: absolute;
-      $offset: 0.75rem;
-      right: $offset;
-      top: $offset;
-      // height: 100%;
-      pointer-events: none;
+    // .refresh-button {
+    //   position: absolute;
+    //   $offset: 0.75rem;
+    //   right: $offset;
+    //   top: $offset;
+    //   // height: 100%;
+    //   pointer-events: none;
 
-      z-index: 20;
+    //   z-index: 20;
 
-      .button {
-        box-shadow: 0 0 1rem -0.5rem rgba(#000, 1);
-        // position: sticky;
-        // top: $offset;
-        pointer-events: all;
-      }
-    }
+    //   .button {
+    //     box-shadow: 0 0 1rem -0.5rem rgba(#000, 1);
+    //     // position: sticky;
+    //     // top: $offset;
+    //     pointer-events: all;
+    //   }
+    // }
 
     a {
       text-decoration: none;
@@ -626,207 +625,273 @@ body {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+    }
 
-      .comment {
-        svg {
-          display: inline;
+    .comment {
+      svg {
+        display: inline;
+      }
+
+      color: $clr_txt_2;
+
+      word-break: break-word;
+
+      display: flex;
+      flex-direction: column;
+      // align-items: flex-start;
+      // gap: 0.5rem;
+
+      position: relative;
+
+      &.collapse {
+        & > .comment-body {
+          filter: grayscale(0.75);
+
+          .user-img {
+            position: relative;
+            &:before,
+            &:after {
+              content: "";
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              translate: -50% -50%;
+              height: 60%;
+              width: 10%;
+              background-color: $clr_txt_4;
+            }
+            &:after {
+              rotate: 90deg;
+            }
+            img {
+              opacity: 0;
+            }
+          }
         }
+        & > .comment-body > .comment-text,
+        & > .replies {
+          // display: none;
+          height: 0;
+          overflow: hidden;
+          margin-top: -0.5rem;
+        }
+      }
+    }
 
-        color: $clr_txt_2;
+    .comment-body,
+    .context-popup .comment-body {
+      align-self: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background-color: $clr_bg_3;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
 
-        word-break: break-word;
+      scroll-margin: 0.5rem;
 
+      &.highlight {
+        box-shadow: 0 0 2rem 0.5rem rgba($clr_bg_5, 0.5);
+        background-color: $clr_bg_4;
+      }
+
+      .comment-header {
         display: flex;
-        flex-direction: column;
-        // align-items: flex-start;
-        // gap: 0.5rem;
+        align-items: center;
+        // justify-content: space-between;
+        gap: 0.5rem;
+        line-height: 1;
 
-        position: relative;
+        .user {
+          // color: #fe4500;
+          color: hsl(220 75% 62.5%);
+          font-weight: 600;
 
-        &.collapse {
-          & > .comment-body {
-            filter: grayscale(0.75);
-
-            .user-img {
-              position: relative;
-              &:before,
-              &:after {
-                content: "";
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                translate: -50% -50%;
-                height: 60%;
-                width: 10%;
-                background-color: $clr_txt_4;
-              }
-              &:after {
-                rotate: 90deg;
-              }
-              img {
-                opacity: 0;
-              }
-            }
-          }
-          & > .comment-body .comment-text,
-          & > .replies {
-            // display: none;
-            height: 0;
-            overflow: hidden;
-            margin-top: -0.5rem;
-          }
-        }
-
-        .comment-body {
-          align-self: flex-start;
           display: flex;
-          flex-direction: column;
           gap: 0.5rem;
-          background-color: $clr_bg_3;
-          padding: 0.75rem;
-          border-radius: 0.5rem;
+          align-items: center;
 
-          scroll-margin: 0.5rem;
-
-          .comment-header {
-            display: flex;
-            align-items: center;
-            // justify-content: space-between;
-            gap: 0.5rem;
-            line-height: 1;
-
-            .user {
-              // color: #fe4500;
-              color: hsl(220 75% 62.5%);
-              font-weight: 600;
-
-              display: flex;
-              gap: 0.5rem;
-              align-items: center;
-
-              .user-img {
-                img {
-                  display: block;
-                  border-radius: 50%;
-                  $size: 1.25rem;
-                  width: $size;
-                  height: $size;
-                }
-              }
-
-              .op {
-                padding: 0.25rem;
-                border-radius: 0.25rem;
-                font-size: 0.69rem;
-                background-color: hsl(220 75% 50%);
-                color: $clr_txt_2;
-              }
-            }
-
-            .created {
-              font-weight: 400;
-              color: $clr_txt_4;
-              font-size: 0.8rem;
-              margin-left: auto;
-              padding-left: 0.5rem;
-            }
-
-            .parent {
-              .parent-text {
-                color: hsl(135, 60%, 50%);
-                background-color: $clr_bg_5;
-                align-self: flex-start;
-                padding: 0.25rem;
-                border-radius: 0.25rem;
-                font-size: 0.8rem;
-                cursor: pointer;
-                font-weight: 600;
-                text-transform: uppercase;
-
-                transition: 0.25s ease-out;
-                &:hover {
-                  background-color: $clr_bg_6;
-                }
-              }
-
-              .parent-tooltip {
-                position: absolute;
-                // left: calc(-1 * (1.5rem + 4px + 0.75rem));
-                left: calc(-1 * (1.5rem + 4px));
-                pointer-events: none;
-
-                .comment-body {
-                  box-shadow: 0 0 1rem -0.25rem rgba(#000, 1);
-                  outline: 2px solid $clr_bg_5;
-                  z-index: 10;
-                  position: relative;
-
-                  .comment-text {
-                    line-height: 1.25;
-                  }
-                }
-
-                &.top {
-                  bottom: calc(100% + 0.5rem);
-                }
-                &.bottom {
-                  top: calc(20px + 1.5rem);
-                }
-              }
-            }
-
-            .flair {
-              color: $clr_txt_4;
-              display: flex;
-              gap: 0.25rem;
-              align-items: center;
-
-              font-weight: 400;
-              font-size: 0.8rem;
-
-              .flair-imgs {
-                display: flex;
-                gap: 0.25rem;
-                align-items: center;
-
-                img {
-                  max-height: 1rem;
-                }
-              }
+          .user-img {
+            img {
+              display: block;
+              border-radius: 50%;
+              $size: 1.25rem;
+              width: $size;
+              height: $size;
             }
           }
 
-          span {
-            flex-shrink: 0;
-          }
-        }
-
-        .comment-text {
-          font-weight: 400;
-        }
-
-        &:has(.replies) > .comment-body {
-          border-radius: 0.5rem 0.5rem 0.5rem 0;
-        }
-
-        .replies {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          padding-left: 1.5rem;
-          padding-top: 0.5rem;
-
-          border-left: 4px solid $clr_bg_3;
-
-          .more-replies-button {
-            margin-left: -1rem;
-            align-self: flex-start;
-            padding: 0.25rem 0.5rem !important;
-            background: $clr_bg_3;
+          .op {
+            padding: 0.25rem;
             border-radius: 0.25rem;
-            color: hsl(135, 60%, 50%);
-            font-size: 0.8rem;
-            font-weight: 400;
+            font-size: 0.69rem;
+            background-color: hsl(220 75% 50%);
+            color: $clr_txt_2;
+          }
+        }
+
+        .created {
+          font-weight: 400;
+          color: $clr_txt_4;
+          font-size: 0.8rem;
+          margin-left: auto;
+          padding-left: 0.5rem;
+        }
+
+        .parent-text,
+        .context-button {
+          color: hsl(135, 60%, 50%);
+          background-color: $clr_bg_5;
+          align-self: flex-start;
+          padding: 0.25rem;
+          border-radius: 0.25rem;
+          font-size: 0.8rem;
+          cursor: pointer;
+          font-weight: 600;
+          text-transform: uppercase;
+
+          transition: 0.25s ease-out;
+          &:hover {
+            background-color: $clr_bg_6;
+          }
+        }
+
+        .parent-tooltip {
+          position: absolute;
+          // left: calc(-1 * (1.5rem + 4px + 0.75rem));
+          left: calc(-1 * (1.5rem + 4px));
+          pointer-events: none;
+
+          .comment-body {
+            box-shadow: 0 0 1rem -0.25rem rgba(#000, 1);
+            outline: 2px solid $clr_bg_5;
+            z-index: 10;
+            position: relative;
+
+            .comment-text {
+              line-height: 1.25;
+            }
+          }
+
+          &.top {
+            bottom: calc(100% + 0.5rem);
+          }
+          &.bottom {
+            top: calc(20px + 1.5rem);
+          }
+        }
+
+        .flair {
+          color: $clr_txt_4;
+          display: flex;
+          gap: 0.25rem;
+          align-items: center;
+
+          font-weight: 400;
+          font-size: 0.8rem;
+
+          .flair-imgs {
+            display: flex;
+            gap: 0.25rem;
+            align-items: center;
+
+            img {
+              max-height: 1rem;
+            }
+          }
+        }
+      }
+
+      span {
+        flex-shrink: 0;
+      }
+    }
+
+    .comment-text {
+      font-weight: 400;
+    }
+
+    .comment:has(.replies) > .comment-body {
+      border-radius: 0.5rem 0.5rem 0.5rem 0;
+    }
+
+    .replies {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-left: 1.5rem;
+      padding-top: 0.5rem;
+
+      border-left: 4px solid $clr_bg_3;
+
+      .more-replies-button {
+        margin-left: -1rem;
+        align-self: flex-start;
+        padding: 0.25rem 0.5rem !important;
+        background: $clr_bg_3;
+        border-radius: 0.25rem;
+        color: hsl(135, 60%, 50%);
+        font-size: 0.8rem;
+        font-weight: 400;
+        cursor: pointer;
+      }
+    }
+
+    .context-popup {
+      display: none;
+      &.active {
+        display: block;
+      }
+
+      position: fixed;
+      inset: 0;
+      background: rgba($clr_bg_1, 0.75);
+      padding: 2rem;
+      backdrop-filter: blur(5px);
+
+      .context-popup-inner {
+        position: relative;
+        background: rgba($clr_bg_2, 0.9);
+        border-radius: 1rem;
+        max-height: calc(100vh - 4rem);
+
+        .close-popup {
+          position: absolute;
+          right: 0.5rem;
+          top: 0.5rem;
+          display: flex;
+          background: $clr_bg_4;
+          padding: 0.25rem;
+          border-radius: 100rem;
+          cursor: pointer;
+
+          transition: 0.25s ease-out;
+          &:hover {
+            background: $clr_bg_5;
+          }
+
+          svg {
+            font-size: 1.5rem;
+          }
+        }
+
+        .context-comments {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 2rem;
+          max-height: calc(100vh - 4rem);
+          overflow: scroll;
+
+          &::-webkit-scrollbar {
+            height: 0;
+          }
+
+          .comment-body {
+            .parent,
+            .context-button {
+              display: none;
+            }
           }
         }
       }
@@ -1282,6 +1347,7 @@ body {
   .comments-page {
     .post {
       max-height: calc(100vh - 4rem);
+      align-self: center;
 
       &:hover {
         background-color: hsl(220 10% 15%) !important;
@@ -1357,8 +1423,11 @@ body {
       border: 1px solid rgba($clr_txt_5, 0.5);
     }
 
+    pre,
     code {
       font-family: JetBrains Mono;
+      white-space: break-spaces;
+      overflow: visible;
     }
   }
 }
