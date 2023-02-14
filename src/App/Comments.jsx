@@ -47,7 +47,7 @@ const Comments = () => {
   useEffect(() => {
     fetch(
       params.commentId
-        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&context=20`
+        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1`
         : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1`
     )
       .then((res) => res.json())
