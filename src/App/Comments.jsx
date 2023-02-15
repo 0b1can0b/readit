@@ -71,12 +71,12 @@ const Comments = () => {
       let items;
       if (key.key === "f" || key.key === "r") {
         items = document.querySelectorAll(
-          ".comment-body:not(.collapse .comment-body:not(.collapse > .comment-body))"
+          ".comment-body:not(.collapse .comment-body:not(.collapse > .comment-body)), .comments-page > .post"
         );
       }
       if (key.key === "F" || key.key === "R") {
         items = document.querySelectorAll(
-          ".comments > .comment > .comment-body"
+          ".comments > .comment > .comment-body, .comments-page > .post"
         );
       }
       if (items.length === 0) return;
