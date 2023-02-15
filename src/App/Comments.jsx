@@ -71,7 +71,7 @@ const Comments = () => {
       let items;
       if (key.key === "f" || key.key === "r") {
         items = document.querySelectorAll(
-          ".comment-body:not(.collapse .comment-body):not(.collapse > .comment-body), .comments-page > .post"
+          ".comment-body:not(.collapse .comment-body:not(.comments > .comment > .comment-body)), .comments-page > .post"
         );
       }
       if (key.key === "F" || key.key === "R") {
