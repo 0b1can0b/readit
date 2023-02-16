@@ -39,9 +39,6 @@ const getRelativeFormattedTime = (time) => {
 const Comments = () => {
   const params = useParams();
 
-  const [refresh, setRefresh] = useState(false);
-  useEffect(() => window.scrollTo(0, 0), [refresh]);
-
   const [data, setData] = useState([]);
   const [postData, setPostData] = useState();
   useEffect(() => {
@@ -60,7 +57,7 @@ const Comments = () => {
       setData([]);
       setPostData();
     };
-  }, [refresh]);
+  }, []);
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
@@ -259,7 +256,10 @@ const Comments = () => {
           <div className="comment-header">
             <div className="user">
               <div className="user-img">
-                <img src={iconImgUrl} alt={iconImgUrl} />
+                <img
+                  src={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
+                  alt={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
+                />
               </div>
               <div className="user-name">{commentData.data.author}</div>
               {commentData.data.is_submitter ? (
