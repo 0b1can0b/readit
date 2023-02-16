@@ -4,20 +4,8 @@
 
 @import "src/App/Main.scss";
 
-html,
-body {
-  height: 100%;
-}
-
-a {
-  color: hsl(220 40% 60%);
-}
-
-body {
-  background-color: hsl(220 10% 10%);
-  color: hsl(220 20% 80%);
-  font-family: Inter;
-  line-height: 1;
+* {
+  word-break: break-word;
 }
 
 ::-webkit-scrollbar {
@@ -27,8 +15,24 @@ body {
   background-color: hsl(220 10% 25% / 0.5);
 }
 
-* {
-  word-break: break-word;
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: hsl(220 10% 10%);
+  color: hsl(220 20% 80%);
+  font-family: Inter;
+  line-height: 1;
+}
+
+a {
+  color: hsl(220 40% 60%);
+}
+
+svg {
+  display: block;
 }
 
 .app {
