@@ -93,20 +93,16 @@ const Subreddit = () => {
   }, [url]);
 
   const [IsLoadingMoreItems, setIsLoadingMoreItems] = useState(false);
-  const fetchMoreItems = async () => {
-    try {
-      const response = await fetch(
-        `https://www.reddit.com/r/${params.sub}/.json?after=${after}&raw_json=1`
-      );
-      const json = await response.json();
-      setAfter(json.data.after);
-      json.data.children.forEach((newFetchedPost) => {
-        setData((prev) => [...prev, newFetchedPost]);
+  const fetchMoreItems = () => {
+    fetch(`${url}&after=${after}`)
+      .then((e) => e.json())
+      .then((e) => {
+        setAfter(e.data.after);
+        e.data.children.forEach((newFetchedPost) => {
+          setData((prev) => [...prev, newFetchedPost]);
+        });
+        setIsLoadingMoreItems(false);
       });
-      setIsLoadingMoreItems(false);
-    } catch (error) {
-      setError(error);
-    }
   };
   useEffect(() => {
     window.onscroll = () => {
