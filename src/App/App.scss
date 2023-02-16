@@ -1040,6 +1040,7 @@ body {
         max-height: 100%;
 
         z-index: 20;
+        position: relative;
       }
     }
 
@@ -1083,6 +1084,7 @@ body {
         }
 
         z-index: 20;
+        position: relative;
       }
 
       video {
@@ -1092,6 +1094,7 @@ body {
         max-height: 100%;
 
         z-index: 20;
+        position: relative;
       }
     }
 
@@ -1214,6 +1217,7 @@ body {
             display: block;
 
             z-index: 20;
+            position: relative;
           }
 
           position: absolute;
