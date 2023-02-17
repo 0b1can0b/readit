@@ -593,7 +593,7 @@ svg {
   .comments-page {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
     padding: 2rem;
     width: 100%;
@@ -1369,7 +1369,6 @@ svg {
 
     .post {
       max-height: calc(100vh - 4rem);
-      align-self: center;
 
       scroll-margin: 0.5rem;
 
