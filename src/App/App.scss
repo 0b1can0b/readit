@@ -593,7 +593,8 @@ svg {
   .comments-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
+    align-items: stretch;
     gap: 1rem;
     padding: 2rem;
     width: 100%;
@@ -697,8 +698,8 @@ svg {
       scroll-margin: 0.5rem;
 
       &.highlight {
-        box-shadow: 0 0 2rem 0.5rem rgba($clr_bg_5, 0.5);
-        background-color: $clr_bg_4;
+        box-shadow: 0 0 2rem 0.5rem rgba($clr_bg_5, 0.75);
+        background-color: $clr_bg_5;
       }
 
       .comment-header {
@@ -736,12 +737,31 @@ svg {
           }
         }
 
+        .score,
         .created {
-          font-weight: 400;
           color: $clr_txt_4;
           font-size: 0.8rem;
+        }
+
+        .score {
+          font-weight: 600;
           margin-left: auto;
-          padding-left: 0.5rem;
+          padding-left: 1rem;
+          margin-right: 1rem;
+
+          position: relative;
+          &:after {
+            content: "";
+            position: absolute;
+            $size: 0.25rem;
+            width: $size;
+            height: $size;
+            background-color: $clr_txt_5;
+            border-radius: 50%;
+            top: 50%;
+            translate: 0 -50%;
+            right: -0.875rem;
+          }
         }
 
         .parent-text,
@@ -840,6 +860,11 @@ svg {
         font-size: 0.8rem;
         font-weight: 400;
         cursor: pointer;
+
+        transition: 0.25s ease-out;
+        &:hover {
+          background: $clr_bg_5;
+        }
       }
     }
 
@@ -1036,6 +1061,7 @@ svg {
         position: absolute;
         inset: 0;
         backdrop-filter: brightness(0.75) blur(7.5px);
+        z-index: 10;
       }
 
       img {
@@ -1064,6 +1090,7 @@ svg {
         position: absolute;
         inset: 0;
         backdrop-filter: brightness(0.75) blur(7.5px);
+        z-index: 10;
       }
 
       .volume {
@@ -1110,6 +1137,7 @@ svg {
       iframe {
         height: auto;
         width: 100%;
+        max-height: 100%;
         aspect-ratio: 16/9;
       }
     }
@@ -1214,6 +1242,7 @@ svg {
               position: absolute;
               inset: 0;
               backdrop-filter: brightness(0.75) blur(7.5px);
+              z-index: 10;
             }
           }
 
@@ -1368,7 +1397,9 @@ svg {
     padding-bottom: 85vh;
 
     .post {
-      max-height: calc(100vh - 4rem);
+      // max-height: calc(100vh - 4rem);
+      max-height: calc(100vh - 1rem);
+      margin-top: -1.5rem;
 
       scroll-margin: 0.5rem;
 

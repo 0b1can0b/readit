@@ -84,14 +84,16 @@ const SubPost = ({ postData, IsActivePost }) => {
     });
   };
 
-  const score =
-    postData.score >= 1000
-      ? `${Math.floor(postData.score / 1000)}k`
-      : postData.score;
-  const comments_score =
-    postData.num_comments >= 1000
-      ? `${Math.floor(postData.num_comments / 1000)}k`
-      : postData.num_comments;
+  // const score =
+  //   postData.score >= 1000
+  //     ? `${Math.floor(postData.score / 1000)}k`
+  //     : postData.score;
+  // const comments_score =
+  //   postData.num_comments >= 1000
+  //     ? `${Math.floor(postData.num_comments / 1000)}k`
+  //     : postData.num_comments;
+  const score = postData.score;
+  const comments_score = postData.num_comments;
 
   const handelClick = (e) => {
     if (e.target.tagName === "VIDEO") return;

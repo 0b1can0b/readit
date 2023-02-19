@@ -25,15 +25,15 @@ const getRelativeFormattedTime = (time) => {
               0
             )} yr ago`;
           }
-          return `${Math.floor(time / (60 * 60 * 24 * 30.437))} mon ago`;
+          return `${Math.floor(time / (60 * 60 * 24 * 30.437))}M`;
         }
-        return `${Math.floor(time / (60 * 60 * 24))} days ago`;
+        return `${Math.floor(time / (60 * 60 * 24))}d`;
       }
-      return `${Math.floor(time / (60 * 60))} hr ago`;
+      return `${Math.floor(time / (60 * 60))}h`;
     }
-    return `${Math.floor(time / 60)} min ago`;
+    return `${Math.floor(time / 60)}m`;
   }
-  return `${time} sec ago`;
+  return `${time}s`;
 };
 
 const Comments = () => {
@@ -44,7 +44,7 @@ const Comments = () => {
   useEffect(() => {
     fetch(
       params.commentId
-        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&context=99`
+        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&context=1`
         : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1`
     )
       .then((res) => res.json())
@@ -58,6 +58,12 @@ const Comments = () => {
       setPostData();
     };
   }, []);
+
+  useEffect(() => {
+    if (!params.commentId) return;
+    if (data.length === 0) return;
+    document.querySelectorAll(".comment-body")[0]?.scrollIntoView();
+  }, [data]);
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
@@ -310,12 +316,17 @@ const Comments = () => {
               ""
             )}
 
+            <div className="score">{commentData.data.score}</div>
+
             <a
               className="created"
               href={`${commentData.data.id}`}
               target="_blank"
             >
               {getRelativeFormattedTime(commentData.data.created)}
+              {commentData.data.edited
+                ? ` (${getRelativeFormattedTime(commentData.data.edited)})`
+                : ""}
             </a>
           </div>
 
@@ -373,7 +384,7 @@ const Comments = () => {
       )}
 
       {data.length === 0 ? (
-        ""
+        "Loading..."
       ) : (
         <div className="context-popup">
           <div className="context-popup-inner">
