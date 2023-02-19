@@ -631,6 +631,10 @@ svg {
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+
+      &.hideHeader .comment-header {
+        display: none;
+      }
     }
 
     .comment {

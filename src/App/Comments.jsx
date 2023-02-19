@@ -65,8 +65,12 @@ const Comments = () => {
     document.querySelectorAll(".comment-body")[0]?.scrollIntoView();
   }, [data]);
 
+  const [hideHeader, setHideHeader] = useState(false);
+
   useEffect(() => {
     document.body.onkeydown = (key) => {
+      if (key.key === "H") setHideHeader((e) => !e);
+
       if (key.ctrlKey || key.altKey) return;
       if (!["f", "r", "F", "R"].some((e) => e === key.key)) return;
 
@@ -376,7 +380,7 @@ const Comments = () => {
       {data.length === 0 ? (
         ""
       ) : (
-        <div className="comments">
+        <div className="comments hideHeader">
           {data.map((e, i) => {
             return <Comment key={i} commentData={e} />;
           })}
