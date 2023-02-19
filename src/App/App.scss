@@ -20,15 +20,19 @@ body {
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 body {
   background-color: hsl(220 10% 10%);
   color: hsl(220 20% 80%);
   font-family: Inter;
   line-height: 1;
-}
-
-a {
-  color: hsl(220 40% 60%);
 }
 
 svg {
@@ -621,14 +625,6 @@ svg {
     //     pointer-events: all;
     //   }
     // }
-
-    a {
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
 
     .comments {
       display: flex;
@@ -1442,10 +1438,6 @@ svg {
 
     a {
       color: hsl(220 100% 62.5%);
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
     ul {
       padding-left: 2ch;
