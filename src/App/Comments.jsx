@@ -380,7 +380,7 @@ const Comments = () => {
       {data.length === 0 ? (
         ""
       ) : (
-        <div className="comments hideHeader">
+        <div className={hideHeader ? "comments hideHeader" : "comments"}>
           {data.map((e, i) => {
             return <Comment key={i} commentData={e} />;
           })}
