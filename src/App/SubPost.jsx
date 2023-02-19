@@ -255,8 +255,11 @@ const SubPost = ({ postData, IsActivePost }) => {
             {/* <div className="icon">
               <HiOutlineClock />
             </div> */}
-            <div className="text" title={Date(postData.created)}>
+            <div className="text" title={new Date(postData.created)}>
               {timeAgo(postData.created)}
+              {postData.edited
+                ? ` (${getRelativeFormattedTime(postData.edited)})`
+                : ""}
             </div>
           </div>
         </div>
