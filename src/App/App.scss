@@ -1062,7 +1062,11 @@ svg {
       &:after {
         content: "";
         position: absolute;
-        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
         backdrop-filter: brightness(0.75) blur(7.5px);
         z-index: 10;
       }
@@ -1091,7 +1095,11 @@ svg {
       &:after {
         content: "";
         position: absolute;
-        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
         backdrop-filter: brightness(0.75) blur(7.5px);
         z-index: 10;
       }
@@ -1243,7 +1251,11 @@ svg {
             &:after {
               content: "";
               position: absolute;
-              inset: 0;
+              width: 100vw;
+              height: 100vh;
+              left: 50%;
+              top: 50%;
+              translate: -50% -50%;
               backdrop-filter: brightness(0.75) blur(7.5px);
               z-index: 10;
             }
