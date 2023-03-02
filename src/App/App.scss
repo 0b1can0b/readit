@@ -657,6 +657,8 @@ svg {
 
           .user-img {
             position: relative;
+            background-image: url("/src/avatar_default_1.png");
+
             &:before,
             &:after {
               content: "";
