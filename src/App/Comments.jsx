@@ -50,6 +50,9 @@ const Comments = () => {
       .then((res) => res.json())
       .then((json) => {
         setData(json[1].data.children);
+
+        document.title = `${json[0].data.children[0].data.title} | r/${params.sub} | Readit`;
+
         setPostData(json[0].data.children[0].data);
       });
 
@@ -269,6 +272,7 @@ const Comments = () => {
                 <img
                   src={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
                   alt={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
+                  loading="lazy"
                 />
               </div>
               <div className="user-name">{commentData.data.author}</div>

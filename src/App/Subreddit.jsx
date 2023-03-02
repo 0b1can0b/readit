@@ -21,6 +21,10 @@ const sortList = [
 const Subreddit = () => {
   const params = useParams();
 
+  useEffect(() => {
+    document.title = `r/${params.sub} | Readit`;
+  }, []);
+
   const [url, setUrl] = useState(
     `https://www.reddit.com/r/${params.sub}/.json?raw_json=1`
   );
