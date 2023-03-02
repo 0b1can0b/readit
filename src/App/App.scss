@@ -1408,7 +1408,18 @@ svg {
   }
 
   .comments-page {
-    padding-bottom: 85vh;
+    padding-bottom: 90vh;
+
+    // .load-more-comments-button {
+    //   align-self: flex-start;
+    //   margin-top: 1rem;
+    //   font-size: 1rem;
+    //   background-color: $clr_bg_5;
+
+    //   &:hover {
+    //     background-color: $clr_bg_7;
+    //   }
+    // }
 
     .post {
       // max-height: calc(100vh - 4rem);

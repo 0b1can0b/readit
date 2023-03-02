@@ -257,7 +257,7 @@ const SubPost = ({ postData, IsActivePost }) => {
             </div> */}
             <div className="text" title={new Date(postData.created)}>
               {timeAgo(postData.created)}
-              {postData.edited ? ` (${timeAgo(postData.edited)})` : ""}
+              {postData.edited ? `(${timeAgo(postData.edited)})` : ""}
             </div>
           </div>
         </div>

@@ -329,7 +329,7 @@ const Comments = () => {
             >
               {getRelativeFormattedTime(commentData.data.created)}
               {commentData.data.edited
-                ? ` (${getRelativeFormattedTime(commentData.data.edited)})`
+                ? `(${getRelativeFormattedTime(commentData.data.edited)})`
                 : ""}
             </a>
           </div>
