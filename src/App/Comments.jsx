@@ -23,7 +23,7 @@ const getRelativeFormattedTime = (time) => {
           if (time / (60 * 60 * 24 * 30.437 * 12) > 1) {
             return `${Math.floor(time / (60 * 60 * 24 * 30.437 * 12)).toFixed(
               0
-            )} yr ago`;
+            )}y`;
           }
           return `${Math.floor(time / (60 * 60 * 24 * 30.437))}M`;
         }
@@ -44,8 +44,8 @@ const Comments = () => {
   useEffect(() => {
     fetch(
       params.commentId
-        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&context=1`
-        : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1`
+        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&limit=500&context=1`
+        : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1&limit=500`
     )
       .then((res) => res.json())
       .then((json) => {
@@ -159,19 +159,19 @@ const Comments = () => {
       );
     };
 
-    const [iconImgUrl, setIconImgUrl] = useState("");
-    useEffect(() => {
-      if (commentData.data.author === "[deleted]") return;
-      fetch(
-        `https://www.reddit.com/user/${commentData.data.author}/about.json?raw_json=1`
-      )
-        .then((e) => e.json())
-        .then((e) => {
-          if (!e.data.subreddit) return;
-          setIconImgUrl(e.data.subreddit.icon_img);
-        });
-      return () => setIconImgUrl("");
-    }, []);
+    // const [iconImgUrl, setIconImgUrl] = useState("");
+    // useEffect(() => {
+    //   if (commentData.data.author === "[deleted]") return;
+    //   fetch(
+    //     `https://www.reddit.com/user/${commentData.data.author}/about.json?raw_json=1`
+    //   )
+    //     .then((e) => e.json())
+    //     .then((e) => {
+    //       if (!e.data.subreddit) return;
+    //       setIconImgUrl(e.data.subreddit.icon_img);
+    //     });
+    //   return () => setIconImgUrl("");
+    // }, []);
 
     const handelParentClick = (e) => {
       e.target.closest(".replies").previousSibling.scrollIntoView();
@@ -268,13 +268,13 @@ const Comments = () => {
         >
           <div className="comment-header">
             <div className="user">
-              <div className="user-img">
+              {/* <div className="user-img">
                 <img
                   src={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
                   alt={iconImgUrl ? iconImgUrl : "/src/avatar_default_1.png"}
                   loading="lazy"
                 />
-              </div>
+              </div> */}
               <div className="user-name">{commentData.data.author}</div>
               {commentData.data.is_submitter ? (
                 <div className="op">OP</div>
@@ -328,7 +328,7 @@ const Comments = () => {
 
             <a
               className="created"
-              href={`${commentData.data.id}`}
+              href={`${commentData.data.permalink}`}
               target="_blank"
             >
               {getRelativeFormattedTime(commentData.data.created)}
@@ -351,6 +351,18 @@ const Comments = () => {
             {commentData.data.replies.data.children.map((e, i) => {
               if (e.kind === "more") {
                 if (moreReplies.length > 0) return;
+                if (e.data.depth === 10) {
+                  return (
+                    <a
+                      key={i}
+                      href={`${commentData.data.permalink}`}
+                      target="_blank"
+                      className="more-replies-button"
+                    >
+                      Continue this thread
+                    </a>
+                  );
+                }
                 return (
                   <div
                     key={i}

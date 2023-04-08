@@ -881,19 +881,19 @@ svg {
       position: fixed;
       inset: 0;
       background: rgba($clr_bg_1, 0.75);
-      padding: 2rem;
+      padding: 2.5rem;
       backdrop-filter: blur(5px);
 
       .context-popup-inner {
         position: relative;
-        background: rgba($clr_bg_2, 0.9);
+        // background: rgba($clr_bg_2, 0.9);
         border-radius: 1rem;
         max-height: calc(100vh - 4rem);
 
         .close-popup {
           position: absolute;
-          right: 0.5rem;
-          top: 0.5rem;
+          right: -2rem;
+          top: -2rem;
           display: flex;
           background: $clr_bg_4;
           padding: 0.25rem;
@@ -914,9 +914,9 @@ svg {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
-          padding: 2rem;
+          // padding: 2rem;
           max-height: calc(100vh - 4rem);
-          overflow: scroll;
+          overflow: auto;
 
           &::-webkit-scrollbar {
             height: 0;
