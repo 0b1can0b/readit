@@ -154,7 +154,7 @@ const Comments = () => {
       if (!e.ctrlKey) return;
       if (new Date() * 1 - time > 100) return;
       window.open(
-        `https://www.troddit.com${commentData.data.permalink}`,
+        `https://www.reddit.com${commentData.data.permalink}`,
         "_blank"
       );
     };
