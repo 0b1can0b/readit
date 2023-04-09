@@ -703,6 +703,10 @@ svg {
       &.highlight {
         box-shadow: 0 0 2rem 0.5rem rgba($clr_bg_5, 0.75);
         background-color: $clr_bg_5;
+
+        & + .replies {
+          border-left: 4px solid $clr_bg_5;
+        }
       }
 
       .comment-header {
