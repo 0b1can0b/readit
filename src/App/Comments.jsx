@@ -156,7 +156,7 @@ const Comments = () => {
       if (!e.ctrlKey) return;
       if (new Date() * 1 - time > 100) return;
       window.open(
-        `https://old.reddit.com${commentData.data.permalink}`,
+        `https://www.reddit.com${commentData.data.permalink}`,
         "_blank"
       );
     };
@@ -278,7 +278,7 @@ const Comments = () => {
                 />
               </div> */}
               <a
-                href={`https://old.reddit.com${commentData.data.permalink}`}
+                href={`https://www.reddit.com${commentData.data.permalink}`}
                 target="_blank"
                 className="user-name"
               >
