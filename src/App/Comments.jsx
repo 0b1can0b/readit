@@ -147,14 +147,16 @@ const Comments = () => {
 
     let time = 0;
     const handelMouseDown = (e) => {
+      return;
       if (!e.ctrlKey) return;
       time = new Date() * 1;
     };
     const handelMouseUp = (e) => {
+      return;
       if (!e.ctrlKey) return;
       if (new Date() * 1 - time > 100) return;
       window.open(
-        `https://www.reddit.com${commentData.data.permalink}`,
+        `https://old.reddit.com${commentData.data.permalink}`,
         "_blank"
       );
     };
@@ -275,7 +277,13 @@ const Comments = () => {
                   loading="lazy"
                 />
               </div> */}
-              <div className="user-name">{commentData.data.author}</div>
+              <a
+                href={`https://old.reddit.com${commentData.data.permalink}`}
+                target="_blank"
+                className="user-name"
+              >
+                {commentData.data.author}
+              </a>
               {commentData.data.is_submitter ? (
                 <div className="op">OP</div>
               ) : (
