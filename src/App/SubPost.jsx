@@ -406,7 +406,7 @@ const SubPost = ({ postData, IsActivePost }) => {
             <div className="text">{postData.upvote_ratio * 100}%</div>
           </div>
           <a
-            href={`https://reddit.com${postData.permalink}`}
+            href={`https://old.reddit.com${postData.permalink}`}
             target="_blank"
             rel="noreferrer"
           >
