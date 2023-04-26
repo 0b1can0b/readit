@@ -44,8 +44,8 @@ const Comments = () => {
   useEffect(() => {
     fetch(
       params.commentId
-        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&limit=50&context=1`
-        : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1&limit=50`
+        ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&limit=500&context=1`
+        : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1&limit=500`
     )
       .then((res) => res.json())
       .then((json) => {
