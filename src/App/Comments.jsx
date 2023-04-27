@@ -62,24 +62,6 @@ const Comments = () => {
     };
   }, []);
 
-  document.onkeydown((key) => {
-    if (key.key === "R") {
-      fetch(
-        params.commentId
-          ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&limit=500&context=1`
-          : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1&limit=500`
-      )
-        .then((res) => res.json())
-        .then((json) => {
-          setData(json[1].data.children);
-
-          document.title = `${json[0].data.children[0].data.title} | r/${params.sub} | Readit`;
-
-          setPostData(json[0].data.children[0].data);
-        });
-    }
-  });
-
   useEffect(() => {
     if (!params.commentId) return;
     if (data.length === 0) return;
@@ -90,6 +72,21 @@ const Comments = () => {
 
   useEffect(() => {
     document.body.onkeydown = (key) => {
+      if (key.key === "E") {
+        fetch(
+          params.commentId
+            ? `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}/${params.commentId}.json?raw_json=1&limit=500&context=1`
+            : `https://www.reddit.com/r/${params.sub}/comments/${params.id}/${params.rest}.json?raw_json=1&limit=500`
+        )
+          .then((res) => res.json())
+          .then((json) => {
+            setData(json[1].data.children);
+            document.title = `${json[0].data.children[0].data.title} | r/${params.sub} | Readit`;
+            setPostData(json[0].data.children[0].data);
+            document.querySelector(".comment:first-child").scrollIntoView();
+          });
+      }
+
       if (key.key === "H") setHideHeader((e) => !e);
 
       if (key.ctrlKey || key.altKey) return;
