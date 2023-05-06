@@ -83,7 +83,9 @@ const Comments = () => {
             setData(json[1].data.children);
             document.title = `${json[0].data.children[0].data.title} | r/${params.sub} | Readit`;
             setPostData(json[0].data.children[0].data);
-            document.querySelector(".comment:first-child").scrollIntoView();
+            document.querySelector(".comment:first-child").scrollIntoView({
+              behavior: "smooth",
+            });
           });
       }
 
